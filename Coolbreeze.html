@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    title>Cool Breeze | Ropa sencilla para la vida real</title>
+    <style>
+        /* 全局样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        :root {
+            --primary: #8AB4F8;
+            --secondary: #F0F4F8;
+            --text-dark: #2D3748;
+            --text-light: #718096;
+            --white: #FFFFFF;
+        }
+        body {
+            color: var(--text-dark);
+            line-height: 1.6;
+            background-color: var(--secondary);
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 导航栏 */
+        header {
+            background: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+        .logo svg {
+            width: 80px;
+            height: 60px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+        .nav-links a {
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+            font-size: 20px;
+        }
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        /* 轮播Banner */
+        .banner {
+            background: linear-gradient(135deg, #E6F2FF 0%, #F0F4F8 100%);
+            padding: 80px 0;
+            text-align: center;
+        }
+        .banner h1 {
+            font-size: 48px;
+            font-weight: 300;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+        }
+        .banner p {
+            font-size: 20px;
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: var(--primary);
+            color: white;
+            border-radius: 30px;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background: #6A96D8;
+        }
+
+        /* 商品分类板块（信息类别1） */
+        .section {
+            padding: 80px 0;
+        }
+        .section-title {
+            text-align: center;
+            font-size: 36px;
+            font-weight: 300;
+            margin-bottom: 50px;
+            color: var(--text-dark);
+        }
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .category-card {
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+        .category-card:hover {
+            transform: translateY(-5px);
+        }
+        .category-card img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+        .category-card-content {
+            padding: 25px;
+        }
+        .category-card h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        .category-card p {
+            color: var(--text-light);
+            margin-bottom: 20px;
+        }
+        .product-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .product-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .add-to-cart {
+            padding: 6px 15px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .add-to-cart:hover {
+            background: #6A96D8;
+        }
+
+        /* 穿搭指南板块（信息类别2） */
+        .style-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+        .style-card {
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .style-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+        .style-card-content {
+            padding: 25px;
+        }
+        .style-card h3 {
+            font-size: 22px;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        .style-card p {
+            color: var(--text-light);
+            margin-bottom: 15px;
+        }
+
+        /* 品牌理念板块（信息类别3） */
+        .brand-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .brand-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+        .brand-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        .brand-card p {
+            color: var(--text-light);
+            line-height: 1.8;
+        }
+
+        /* FAQ板块 */
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .faq-item {
+            background: var(--white);
+            border-radius: 12px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .faq-question {
+            padding: 20px 25px;
+            background: var(--white);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 500;
+            font-size: 18px;
+        }
+        .faq-answer {
+            padding: 0 25px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s, padding 0.3s;
+            color: var(--text-light);
+        }
+        .faq-item.active .faq-answer {
+            padding: 0 25px 20px;
+            max-height: 300px;
+        }
+
+        /* 购物车弹窗 */
+        .cart-modal {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 400px;
+            height: 100vh;
+            background: var(--white);
+            box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+            transition: right 0.3s;
+            z-index: 200;
+            padding: 30px;
+        }
+        .cart-modal.active {
+            right: 0;
+        }
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .cart-close {
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .cart-items {
+            max-height: 60vh;
+            overflow-y: auto;
+            margin-bottom: 30px;
+        }
+        .cart-item {
+            display: flex;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .cart-item img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .cart-item-info {
+            flex: 1;
+        }
+        .cart-item-name {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        .cart-item-price {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 8px;
+        }
+        .quantity-btn {
+            width: 25px;
+            height: 25px;
+            border: 1px solid #eee;
+            background: white;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+        .cart-footer {
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        .checkout-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        /* 联系信息板块 */
+        .contact-section {
+            background: var(--white);
+            padding: 80px 0;
+        }
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+        .contact-item h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        .contact-item p {
+            color: var(--text-light);
+            line-height: 1.8;
+        }
+
+        /* 页脚 */
+        footer {
+            background: var(--text-dark);
+            color: white;
+            padding: 50px 0 20px;
+        }
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        .footer-col h4 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        .footer-col ul {
+            list-style: none;
+        }
+        .footer-col ul li {
+            margin-bottom: 10px;
+            color: #aaa;
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #444;
+            color: #aaa;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header>
+        <div class="nav-container container">
+            <a href="#" class="logo">
+                <!-- 品牌LOGO（对应你提供的设计） -->
+                <svg viewBox="0 0 100 80" fill="none" stroke="#2D3748" stroke-width="2">
+                    <path d="M10 40 Q 20 35, 30 40 T 80 10" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M10 60 Q 20 55, 30 60 T 80 30" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M20 80 Q 30 75, 40 80 T 90 50" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Cool Breeze
+            </a>
+            <ul class="nav-links">
+                <li><a href="#products">Colecciones</a></li>
+                <li><a href="#style">Guías de Estilo</a></li>
+                <li><a href="#brand">Filosofía</a></li>
+                <li><a href="#faq">FAQ</a></li>
+                <li><a href="#contact">Contacto</a></li>
+            </ul>
+            <div class="nav-actions">
+                <div class="cart-icon" id="cartIcon">
+                    🛒
+                    <span class="cart-count" id="cartCount">0</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 轮播Banner -->
+    <section class="banner">
+        <div class="container">
+            <h1>Hecho para la vida real</h1>
+            <p>Diseño minimalista · Confort · Consumo responsable</p>
+            <a href="#products" class="btn">Explorar productos</a>
+        </div>
+    </section>
+
+    <!-- 服饰商品分类（信息类别1） -->
+    <section class="section" id="products">
+        <div class="container">
+            <h2 class="section-title">Colecciones de Ropa</h2>
+            <div class="category-grid">
+                <!-- 类别1：简约基础款 -->
+                <div class="category-card">
+                    <img src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Básicos Minimalistas">
+                    <div class="category-card-content">
+                        <h3>Básicos Minimalistas</h3>
+                        <p>Prendas esenciales para un armario sencillo y funcional</p>
+                        <div class="product-list">
+                            <div class="product-item">
+                                <span>Camiseta básica de algodón</span>
+                                <span>€19</span>
+                                <button class="add-to-cart" data-name="Camiseta básica de algodón" data-price="19" data-img="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">Añadir</button>
+                            </div>
+                            <div class="product-item">
+                                <span>Camisa casual ligera</span>
+                                <span>€29</span>
+                                <button class="add-to-cart" data-name="Camisa casual ligera" data-price="29" data-img="https://images.unsplash.com/photo-1596755389378-c31d21fd1273?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">Añadir</button>
+                            </div>
+                            <div class="product-item">
+                                <span>Pantalones rectos casuales</span>
+                                <span>€35</span>
+                                <button class="add-to-cart" data-name="Pantalones rectos casuales" data-price="35" data-img="https://images.unsplash.com/photo-1542272604-787c3835535d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">Añadir</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 类别2：自然松弛感系列 -->
+                <div class="category-card">
+                    <img src="https://images.unsplash.com/photo-1539008835657-9e8e9680c956?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Estilo Natural y Relajado">
+                    <div class="category-card-content">
+                        <h3>Estilo Natural y Relajado</h3>
+                        <p>Comodidad para tu día a día</p>
+                        <div class="product-list">
+                            <div class="product-item">
+                                <span>Vestido de lino transpirable</span>
+                                <span>€45</span>
+                                <button class="add-to-cart" data-name="Vestido de lino transpirable" data-price="45" data-img="https://images.unsplash.com/photo-1539008835657-9e8e9680c956?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">Añadir</button>
+                            </div>
+                            <div class="product-item">
+                                <span>Chaqueta de punto suave</span>
+                                <span>€39</span>
+                                <button class="add-to-cart" data-name="Chaqueta de punto suave" data-price="39" data-img="https://images.unsplash.com/photo-1596755389378-c31d21fd1273?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">Añadir</button>
+                            </div>
+                            <div class="product-item">
+                                <span>Pantalones anchos de cintura alta</span>
+                                <span>€38</span>
+                                <button class="add-to-cart" data-name="Pantalones anchos de cintura alta" data-price="38" data-img="https://images.unsplash.com/photo-1542272604-787c3835535d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">Añadir</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 类别3：可持续环保系列 -->
+                <div class="category-card">
+                    <img src="https://images.unsplash.com/photo-1584670747417-594a9412fba5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Colección Sostenible">
+                    <div class="category-card-content">
+                        <h3>Colección Sostenible</h3>
+                        <p>Materiales ecológicos y consumo consciente</p>
+                        <div class="product-list">
+                            <div class="product-item">
+                                <span>Camiseta de algodón orgánico</span>
+                                <span>€25</span>
+                                <button class="add-to-cart" data-name="Camiseta de algodón orgánico" data-price="25" data-img="https://images.unsplash.com/photo-1584670747417-594a9412fba5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">Añadir</button>
+                            </div>
+                            <div class="product-item">
+                                <span>Pantalones de fibra reciclada</span>
+                                <span>€42</span>
+                                <button class="add-to-cart" data-name="Pantalones de fibra reciclada" data-price="42" data-img="https://images.unsplash.com/photo-1542272604-787c3835535d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">Añadir</button>
+                            </div>
+                            <div class="product-item">
+                                <span>Camisa de lino y algodón ecológico</span>
+                                <span>€36</span>
+                                <button class="add-to-cart" data-name="Camisa de lino y algodón ecológico" data-price="36" data-img="https://images.unsplash.com/photo-1596755389378-c31d21fd1273?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">Añadir</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    </section>
+
+    <!-- 穿搭指南（信息类别2） -->
+    <section class="section" id="style" style="background: var(--white);">
+        <div class="container">
+            <h2 class="section-title">Guías de Estilo</h2>
+            <div class="style-grid">
+                <div class="style-card">
+                    <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Combinaciones semanales">
+                    <div class="style-card-content">
+                        <h3>Combinaciones semanales</h3>
+                        <p>Looks para trabajo, ocio y citas, usando prendas básicas y versátiles.</p>
+                        <a href="#" class="btn" style="margin-top: 10px;">Ver más</a>
+                    </div>
+                </div>
+                <div class="style-card">
+                    <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Cuidado de prendas">
+                    <div class="style-card-content">
+                        <h3>Cuidado de prendas</h3>
+                        <p>Consejos para lavar y mantener algodón, lino y punto, alargando la vida útil de tu ropa.</p>
+                        <a href="#" class="btn" style="margin-top: 10px;">Ver más</a>
+                    </div>
+                </div>
+                <div class="style-card">
+                    <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Armario minimalista">
+                    <div class="style-card-content">
+                        <h3>Armario minimalista</h3>
+                        <p>Cómo crear un armario funcional con pocas prendas, fomentando el consumo responsable.</p>
+                        <a href="#" class="btn" style="margin-top: 10px;">Ver más</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 品牌理念（信息类别3） -->
+    <section class="section" id="brand">
+        <div class="container">
+            <h2 class="section-title">Filosofía de Marca</h2>
+            <div class="brand-grid">
+                <div class="brand-card">
+                    <h3>Nuestra Historia</h3>
+                    <p>Cool Breeze nace de la reflexión sobre la moda rápida. Creemos en la ropa auténtica, sin excesos, centrada en el confort y la calidad.</p>
+                </div>
+                <div class="brand-card">
+                    <h3>Sostenibilidad</h3>
+                    <p>Usamos algodón orgánico, fibras recicladas y embalajes biodegradables para reducir el impacto ambiental.</p>
+                </div>
+                <div class="brand-card">
+                    <h3>Ventajas para Miembros</h3>
+                    <p>Descuentos exclusivos, puntos canjeables, regalos de cumpleaños y asesoramiento de estilo personalizado.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ常见问题解答 -->
+    <section class="section" id="faq" style="background: var(--white);">
+        <div class="container">
+            <h2 class="section-title">Preguntas Frecuentes</h2>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>¿Cómo sigo mi pedido?</span>
+                        <span>+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Inicia sesión y ve a "Mis Pedidos". Allí verás el estado del envío. También recibirás un correo con el número de seguimiento.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>¿Cuál es la política de devoluciones?</span>
+                        <span>+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Aceptamos devoluciones en 7 días. La prenda debe estar sin usar, con etiquetas. Gastos de envío por defecto del cliente, salvo defecto de fábrica.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>¿Se encogen o destiñen las prendas?</span>
+                        <span>+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Todas nuestras prendas pasan por tratamiento antiencogimiento. Lavar en frío, al revés y sin remojar mucho para mantenerlas mejor.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>¿Qué métodos de pago aceptan?</span>
+                        <span>+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Aceptamos tarjeta de crédito, PayPal y transferencia bancaria. Los miembros pueden canjear puntos por descuentos.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>¿Cómo solicito una devolución?</span>
+                        <span>+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Ve a "Mis Pedidos", selecciona "Solicitar devolución", indica el motivo y sube una foto. Te enviaremos la dirección de devolución.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系信息板块 -->
+    <section class="contact-section" id="contact">
+        <div class="container">
+            <h2 class="section-title">Contacto</h2>
+            <div class="contact-grid">
+                <div class="contact-item">
+                    <h3>Atención al Cliente</h3>
+                    <p>900 123 456</p>
+                    <p>Lun-Vie: 9:00-21:00</p>
+                    <p>Sáb-Dom: 10:00-18:00</p>
+                </div>
+                <div class="contact-item">
+                    <h3>Correo Electrónico</h3>
+                    <p>info@coolbreeze.com</p>
+                    <p>colaboraciones@coolbreeze.com</p>
+                </div>
+                <div class="contact-item">
+                    <h3>Tienda Física</h3>
+                    <p>Calle Gran Vía, 123, Madrid</p>
+                    <p>Horario: 10:00-22:00</p>
+                </div>
+                <div class="contact-item">
+                    <h3>Redes Sociales</h3>
+                    <p>Instagram: @coolbreeze_official</p>
+                    <p>TikTok: @coolbreeze</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 购物车弹窗 -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-header">
+            <h3>Carrito</h3>
+            <span class="cart-close" id="cartClose">&times;</span>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <p style="text-align: center; color: var(--text-light);">El carrito está vacío</p>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cartTotal">€0</span>
+            </div>
+            <button class="checkout-btn" id="checkoutBtn">Finalizar compra</button>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <h4>Cool Breeze</h4>
+                    <ul>
+                        <li>Hecho para la vida real</li>
+                        <li>Diseño minimalista · Confort · Consumo responsable</li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Navegación</h4>
+                    <ul>
+                        <li><a href="#products">Colecciones</a></li>
+                        <li><a href="#style">Guías de Estilo</a></li>
+                        <li><a href="#brand">Filosofía</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Atención al Cliente</h4>
+                    <ul>
+                        <li><a href="#contact">Contacto</a></li>
+                        <li>Devoluciones</li>
+                        <li>Privacidad</li>
+                        <li>Términos</li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Síguenos</h4>
+                    <ul>
+                        <li>Instagram: @coolbreeze_official</li>
+                        <li>TikTok: @coolbreeze</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Cool Breeze. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 购物车功能
+        let cart = [];
+        const cartIcon = document.getElementById('cartIcon');
+        const cartModal = document.getElementById('cartModal');
+        const cartClose = document.getElementById('cartClose');
+        const cartCount = document.getElementById('cartCount');
+        const cartItems = document.getElementById('cartItems');
+        const cartTotal = document.getElementById('cartTotal');
+        const addToCartBtns = document.querySelectorAll('.add-to-cart');
+        const checkoutBtn = document.getElementById('checkoutBtn');
+
+        // 打开/关闭购物车
+        cartIcon.addEventListener('click', () => {
+            cartModal.classList.add('active');
+        });
+        cartClose.addEventListener('click', () => {
+            cartModal.classList.remove('active');
+        });
+
+        // 添加商品到购物车
+        addToCartBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const name = btn.dataset.name;
+                const price = parseFloat(btn.dataset.price);
+                const img = btn.dataset.img;
+
+                const existingItem = cart.find(item => item.name === name);
+                if (existingItem) {
+                    existingItem.quantity += 1;
+                } else {
+                    cart.push({ name, price, img, quantity: 1 });
+                }
+                updateCart();
+                cartModal.classList.add('active');
+            });
+        });
+
+        // 更新购物车
+        function updateCart() {
+            // 更新数量
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.textContent = totalItems;
+
+            // 更新商品列表
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p style="text-align: center; color: var(--text-light);">El carrito está vacío</p>';
+            } else {
+                cartItems.innerHTML = cart.map(item => `
+                    <div class="cart-item">
+                        <img src="${item.img}" alt="${item.name}">
+                        <div class="cart-item-info">
+                            <div class="cart-item-name">${item.name}</div>
+                            <div class="cart-item-price">€${item.price.toFixed(2)}</div>
+                            <div class="cart-item-quantity">
+                                <button class="quantity-btn" onclick="updateQuantity('${item.name}', -1)">-</button>
+                                <span>${item.quantity}</span>
+                                <button class="quantity-btn" onclick="updateQuantity('${item.name}', 1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // 更新总价
+            const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+            cartTotal.textContent = `€${total.toFixed(2)}`;
+        }
+
+        // 更新商品数量
+        function updateQuantity(name, change) {
+            const item = cart.find(item => item.name === name);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    cart = cart.filter(i => i.name !== name);
+                }
+                updateCart();
+            }
+        }
+
+        // 结算功能
+        checkoutBtn.addEventListener('click', () => {
+            if (cart.length === 0) {
+                alert('El carrito está vacío');
+                return;
+            }
+            alert('¡Pedido realizado con éxito!');
+            cart = [];
+            updateCart();
+            cartModal.classList.remove('active');
+        });
+
+        // FAQ折叠功能
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            question.addEventListener('click', () => {
+                item.classList.toggle('active');
+                const icon = question.querySelector('span:last-child');
+                icon.textContent = item.classList.contains('active') ? '-' : '+';
+            });
+        });
+    </script>
+</body>
+</html>
